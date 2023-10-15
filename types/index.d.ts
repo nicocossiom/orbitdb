@@ -1,30 +1,10 @@
-import { IPFS } from "ipfs-core-types"
-import { AccessControllers } from "./access-controllers"
-import { Databases } from "./databases"
-import { Identities } from "./identities"
-import { Storage } from "./storage"
-type crateOrbitDBParams = {
-    ipfs: IPFS
-    id?: string, 
-    identity?: Identities.Identity
-    identities?: Identities.Identities
-    directory?: string
-}
+export { IPFSAccessController, OrbitDBAccessController, useAccessController } from "./access-controllers/index.js"
+export { isValidAddress, parseAddress } from "./address.js"
+export { default as Database } from "./database.js"
+export { Documents, Events, KeyValue, KeyValueIndexed, useDatabaseType } from "./databases"
+export { Identities, PublicKeyIdentityProvider, isIdentity, useIdentityProvider } from "./identities/index.js"
+export { default as KeyStore } from "./key-store.js"
+export { DefaultAccessController, Entry, Log } from "./oplog/index.js"
+export { default as createOrbitDB } from "./orbitdb.js"
+export { ComposedStorage, IPFSBlockStorage, LRUStorage, LevelStorage, MemoryStorage } from "./storage/index.js"
 
-interface OrbitDB {
-    open<T extends Databases.DatabaseTypes, K, V>(address: string, params?: {
-        type?: T,
-        meta?: any, 
-        sync?: boolean, 
-        Database?: Databases.Database<T, K, V>, 
-        AccessController?: AccessControllers.AccessController, 
-        headsStorage?: Storage.Storage, 
-        indexStorage?: Storage.Storage, 
-        entryStorage?: Storage.Storage, 
-        referencesCount?: number
-    }): Promise<Databases.Database<T, K, V>>
-    stop(): Promise<void>
-}
-
-export default function createOrbitDB(params: crateOrbitDBParams): Promise<OrbitDB>
-export { AccessControllers, Databases, Identities, Storage }

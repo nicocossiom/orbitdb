@@ -6,9 +6,9 @@
  *
  * @augments module:Databases~Database
  */
-import Database from '../database.js'
+import Database from "../database.js"
 
-const type = 'events'
+const type = "events"
 
 /**
  * Defines an Events database.
@@ -29,7 +29,7 @@ const Events = () => async ({ ipfs, identity, address, name, access, directory, 
    * @instance
    */
   const add = async (value) => {
-    return addOperation({ op: 'ADD', key: null, value })
+    return addOperation({ op: "ADD", key: null, value })
   }
 
   /**
@@ -62,7 +62,7 @@ const Events = () => async ({ ipfs, identity, address, name, access, directory, 
    * @memberof module:Databases.Databases-Events
    * @instance
    */
-  const iterator = async function * ({ gt, gte, lt, lte, amount } = {}) {
+  const iterator = async function* ({ gt, gte, lt, lte, amount } = {}) {
     const it = log.iterator({ gt, gte, lt, lte, amount })
     for await (const event of it) {
       const hash = event.hash

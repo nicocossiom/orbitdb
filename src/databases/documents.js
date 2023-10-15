@@ -12,11 +12,11 @@
  *
  * @augments module:Databases~Database
  */
-import Database from '../database.js'
+import Database from "../database.js"
 
-const type = 'documents'
+const type = "documents"
 
-const DefaultOptions = { indexBy: '_id' }
+const DefaultOptions = { indexBy: "_id" }
 
 /**
  * Defines a Documents database.
@@ -43,7 +43,7 @@ const Documents = ({ indexBy } = DefaultOptions) => async ({ ipfs, identity, add
 
     if (!key) { throw new Error(`The provided document doesn't contain field '${indexBy}'`) }
 
-    return addOperation({ op: 'PUT', key, value: doc })
+    return addOperation({ op: "PUT", key, value: doc })
   }
 
   /**
@@ -57,7 +57,7 @@ const Documents = ({ indexBy } = DefaultOptions) => async ({ ipfs, identity, add
   const del = async (key) => {
     if (!await get(key)) { throw new Error(`No document with key '${key}' in the database`) }
 
-    return addOperation({ op: 'DEL', key, value: null })
+    return addOperation({ op: "DEL", key, value: null })
   }
 
   /**
@@ -110,17 +110,17 @@ const Documents = ({ indexBy } = DefaultOptions) => async ({ ipfs, identity, add
    * @memberof module:Databases.Databases-Documents
    * @instance
    */
-  const iterator = async function * ({ amount } = {}) {
+  const iterator = async function* ({ amount } = {}) {
     const keys = {}
     let count = 0
     for await (const entry of log.iterator()) {
       const { op, key, value } = entry.payload
-      if (op === 'PUT' && !keys[key]) {
+      if (op === "PUT" && !keys[key]) {
         keys[key] = true
         count++
         const hash = entry.hash
         yield { hash, key, value }
-      } else if (op === 'DEL' && !keys[key]) {
+      } else if (op === "DEL" && !keys[key]) {
         keys[key] = true
       }
       if (count >= amount) {

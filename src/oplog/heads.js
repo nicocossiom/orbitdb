@@ -1,15 +1,14 @@
+import MemoryStorage from "../storage/memory.js"
+import Entry from "./entry.js"
+
+const DefaultStorage = MemoryStorage
+
 /**
  * @namespace module:Log~Heads
  * @memberof module:Log
  * @description The log's heads.
  * @private
- */
-import Entry from './entry.js'
-import MemoryStorage from '../storage/memory.js'
-
-const DefaultStorage = MemoryStorage
-
-const Heads = async ({ storage, heads }) => {
+ */const Heads = async ({ storage, heads }) => {
   storage = storage || await DefaultStorage()
 
   const put = async (heads) => {
@@ -35,7 +34,7 @@ const Heads = async ({ storage, heads }) => {
     return newHeads
   }
 
-  const iterator = async function * () {
+  const iterator = async function* () {
     const it = storage.iterator()
     for await (const [, bytes] of it) {
       const head = await Entry.decode(bytes)

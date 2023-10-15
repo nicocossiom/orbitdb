@@ -3,10 +3,10 @@
  * @description
  * Provides various database structures for storing data.
  */
-import Documents from './documents.js'
-import Events from './events.js'
-import KeyValue from './keyvalue.js'
-import KeyValueIndexed from './keyvalue-indexed.js'
+import Documents from "./documents.js"
+import Events from "./events.js"
+import KeyValueIndexed from "./keyvalue-indexed.js"
+import KeyValue from "./keyvalue.js"
 /**
 
  * An array of available database types.
@@ -34,7 +34,7 @@ const databaseTypes = {}
  */
 const useDatabaseType = (database) => {
   if (!database.type) {
-    throw new Error('Database type does not contain required field \'type\'.')
+    throw new Error("Database type does not contain required field 'type'.")
   }
 
   databaseTypes[database.type] = database
@@ -42,7 +42,7 @@ const useDatabaseType = (database) => {
 
 const getDatabaseType = (type) => {
   if (!type) {
-    throw new Error('Type not specified')
+    throw new Error("Type not specified")
   }
 
   if (!databaseTypes[type]) {
@@ -56,4 +56,5 @@ useDatabaseType(Events)
 useDatabaseType(Documents)
 useDatabaseType(KeyValue)
 
-export { useDatabaseType, getDatabaseType, Documents, Events, KeyValue, KeyValueIndexed }
+export { Documents, Events, KeyValue, KeyValueIndexed, getDatabaseType, useDatabaseType }
+

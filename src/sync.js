@@ -1,8 +1,8 @@
-import { pipe } from 'it-pipe'
-import PQueue from 'p-queue'
-import { EventEmitter } from 'events'
-import { TimeoutController } from 'timeout-abort-controller'
-import pathJoin from './utils/path-join.js'
+import { EventEmitter } from "events"
+import { pipe } from "it-pipe"
+import PQueue from "p-queue"
+import { TimeoutController } from "timeout-abort-controller"
+import pathJoin from "./utils/path-join.js"
 
 const DefaultTimeout = 30000 // 30 seconds
 
@@ -112,11 +112,11 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
    * sync.events.on('error', (error) => ...)
    */
 
-  if (!ipfs) throw new Error('An instance of ipfs is required.')
-  if (!log) throw new Error('An instance of log is required.')
+  if (!ipfs) throw new Error("An instance of ipfs is required.")
+  if (!log) throw new Error("An instance of log is required.")
 
   const address = log.id
-  const headsSyncAddress = pathJoin('/orbitdb/heads/', address)
+  const headsSyncAddress = pathJoin("/orbitdb/heads/", address)
 
   const queue = new PQueue({ concurrency: 1 })
 
@@ -143,11 +143,11 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
 
   const onPeerJoined = async (peerId) => {
     const heads = await log.heads()
-    events.emit('join', peerId, heads)
+    events.emit("join", peerId, heads)
   }
 
   const sendHeads = async (source) => {
-    return (async function * () {
+    return (async function* () {
       const heads = await log.heads()
       for await (const { bytes } of heads) {
         yield bytes
@@ -172,7 +172,7 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
       await pipe(stream, receiveHeads(peerId), sendHeads, stream)
     } catch (e) {
       peers.delete(peerId)
-      events.emit('error', e)
+      events.emit("error", e)
     }
   }
 
@@ -195,11 +195,11 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
           const stream = await ipfs.libp2p.dialProtocol(remotePeer, headsSyncAddress, { signal })
           await pipe(sendHeads, stream, receiveHeads(peerId))
         } catch (e) {
-          if (e.code === 'ERR_UNSUPPORTED_PROTOCOL') {
+          if (e.code === "ERR_UNSUPPORTED_PROTOCOL") {
             // Skip peer, they don't have this database currently
           } else {
             peers.delete(peerId)
-            events.emit('error', e)
+            events.emit("error", e)
           }
         } finally {
           if (timeoutController) {
@@ -208,7 +208,7 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
         }
       } else {
         peers.delete(peerId)
-        events.emit('leave', peerId)
+        events.emit("leave", peerId)
       }
     }
     queue.add(task)
@@ -224,7 +224,7 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
           await onSynced(message.data)
         }
       } catch (e) {
-        events.emit('error', e)
+        events.emit("error", e)
       }
     }
     queue.add(task)
@@ -252,7 +252,7 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
   const stopSync = async () => {
     if (started) {
       await queue.onIdle()
-      ipfs.libp2p.pubsub.removeEventListener('subscription-change', handlePeerSubscribed)
+      ipfs.libp2p.pubsub.removeEventListener("subscription-change", handlePeerSubscribed)
       await ipfs.libp2p.unhandle(headsSyncAddress)
       await ipfs.pubsub.unsubscribe(address, handleUpdateMessage)
       peers.clear()
@@ -270,7 +270,7 @@ const Sync = async ({ ipfs, log, events, onSynced, start, timeout }) => {
     if (!started) {
       // Exchange head entries with peers when connected
       await ipfs.libp2p.handle(headsSyncAddress, handleReceiveHeads)
-      ipfs.libp2p.pubsub.addEventListener('subscription-change', handlePeerSubscribed)
+      ipfs.libp2p.pubsub.addEventListener("subscription-change", handlePeerSubscribed)
       // Subscribe to the pubsub channel for this database through which updates are sent
       await ipfs.pubsub.subscribe(address, handleUpdateMessage)
       started = true

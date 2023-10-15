@@ -2,12 +2,12 @@
  * @namespace AccessControllers-IPFS
  * @memberof module:AccessControllers
  */
-import { IPFSBlockStorage, LRUStorage, ComposedStorage } from '../storage/index.js'
-import * as Block from 'multiformats/block'
-import * as dagCbor from '@ipld/dag-cbor'
-import { sha256 } from 'multiformats/hashes/sha2'
-import { base58btc } from 'multiformats/bases/base58'
-import pathJoin from '../utils/path-join.js'
+import * as dagCbor from "@ipld/dag-cbor"
+import { base58btc } from "multiformats/bases/base58"
+import * as Block from "multiformats/block"
+import { sha256 } from "multiformats/hashes/sha2"
+import { ComposedStorage, IPFSBlockStorage, LRUStorage } from "../storage/index.js"
+import pathJoin from "../utils/path-join.js"
 
 const codec = dagCbor
 const hasher = sha256
@@ -24,7 +24,7 @@ const AccessControlList = async ({ storage, type, params }) => {
   return hash
 }
 
-const type = 'ipfs'
+const type = "ipfs"
 
 /**
  * Creates an instance of IPFSAccessController.
@@ -47,7 +47,7 @@ const type = 'ipfs'
  * IPFSAccessController.
  * @param {Array} [params.write] An array of identity ids who can write to the
  * database.
- * @param {module:Storage} [params.storage] An instance of a compatible storage.
+ * @param {module:S../storage/index.jsarams.storage] An instance of a compatible storage.
  * @return {module:AccessControllers.AccessControllers-IPFS} An
  * IPFSAccessController function.
  * @memberof module:AccessControllers
@@ -60,12 +60,12 @@ const IPFSAccessController = ({ write, storage } = {}) => async ({ orbitdb, iden
   write = write || [orbitdb.identity.id]
 
   if (address) {
-    const manifestBytes = await storage.get(address.replaceAll('/ipfs/', ''))
+    const manifestBytes = await storage.get(address.replaceAll("/ipfs/", ""))
     const { value } = await Block.decode({ bytes: manifestBytes, codec, hasher })
     write = value.write
   } else {
     address = await AccessControlList({ storage, type, params: { write } })
-    address = pathJoin('/', type, address)
+    address = pathJoin("/", type, address)
   }
 
   /**
@@ -82,7 +82,7 @@ const IPFSAccessController = ({ write, storage } = {}) => async ({ orbitdb, iden
     }
     const { id } = writerIdentity
     // Allow if the write access list contain the writer's id or is '*'
-    if (write.includes(id) || write.includes('*')) {
+    if (write.includes(id) || write.includes("*")) {
       // Check that the identity is valid
       return identities.verifyIdentity(writerIdentity)
     }

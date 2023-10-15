@@ -4,12 +4,12 @@
  * Database is the base class for OrbitDB data stores and handles all lower
  * level add operations and database sync-ing using IPFS.
  */
-import { EventEmitter } from 'events'
-import PQueue from 'p-queue'
-import Sync from './sync.js'
-import { Log, Entry } from './oplog/index.js'
-import { ComposedStorage, LRUStorage, IPFSBlockStorage, LevelStorage } from './storage/index.js'
-import pathJoin from './utils/path-join.js'
+import { EventEmitter } from "events"
+import PQueue from "p-queue"
+import { Entry, Log } from "./oplog/index.js"
+import { ComposedStorage, IPFSBlockStorage, LRUStorage, LevelStorage } from "./storage/index.js"
+import Sync from "./sync.js"
+import pathJoin from "./utils/path-join.js"
 
 const defaultReferencesCount = 16
 const defaultCacheSize = 1000
@@ -89,7 +89,7 @@ const Database = async ({ ipfs, identity, address, name, access, directory, meta
    * database.events.on('leave', (peerID) => ...)
    */
 
-  directory = pathJoin(directory || './orbitdb', `./${address}/`)
+  directory = pathJoin(directory || "./orbitdb", `./${address}/`)
   meta = meta || {}
   referencesCount = Number(referencesCount) > -1 ? referencesCount : defaultReferencesCount
 
@@ -100,12 +100,12 @@ const Database = async ({ ipfs, identity, address, name, access, directory, meta
 
   headsStorage = headsStorage || await ComposedStorage(
     await LRUStorage({ size: defaultCacheSize }),
-    await LevelStorage({ path: pathJoin(directory, '/log/_heads/') })
+    await LevelStorage({ path: pathJoin(directory, "/log/_heads/") })
   )
 
   indexStorage = indexStorage || await ComposedStorage(
     await LRUStorage({ size: defaultCacheSize }),
-    await LevelStorage({ path: pathJoin(directory, '/log/_index/') })
+    await LevelStorage({ path: pathJoin(directory, "/log/_index/") })
   )
 
   const log = await Log(identity, { logId: address, access, entryStorage, headsStorage, indexStorage })
@@ -130,7 +130,7 @@ const Database = async ({ ipfs, identity, address, name, access, directory, meta
       if (onUpdate) {
         await onUpdate(log, entry)
       }
-      events.emit('update', entry)
+      events.emit("update", entry)
       return entry.hash
     }
     const hash = await queue.add(task)
@@ -147,7 +147,7 @@ const Database = async ({ ipfs, identity, address, name, access, directory, meta
           if (onUpdate) {
             await onUpdate(log, entry)
           }
-          events.emit('update', entry)
+          events.emit("update", entry)
         }
       }
     }
@@ -167,7 +167,7 @@ const Database = async ({ ipfs, identity, address, name, access, directory, meta
     if (access && access.close) {
       await access.close()
     }
-    events.emit('close')
+    events.emit("close")
   }
 
   /**
@@ -182,7 +182,7 @@ const Database = async ({ ipfs, identity, address, name, access, directory, meta
     if (access && access.drop) {
       await access.drop()
     }
-    events.emit('drop')
+    events.emit("drop")
   }
 
   const sync = await Sync({ ipfs, log, events, onSynced: applyOperation, start: syncAutomatically })

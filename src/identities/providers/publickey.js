@@ -4,10 +4,10 @@
  * The PublicKey Identity Provider signs and verifies an identity using the
  * public key of a private/public key pair.
  */
-import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
-import { signMessage, verifyMessage } from '../../key-store.js'
+import { toString as uint8ArrayToString } from "uint8arrays/to-string"
+import { signMessage, verifyMessage } from "../../key-store.js"
 
-const type = 'publickey'
+const type = "publickey"
 
 /**
  * Verifies an identity using the identity's id.
@@ -36,7 +36,7 @@ const PublicKeyIdentityProvider = ({ keystore }) => async () => {
    */
 
   if (!keystore) {
-    throw new Error('PublicKeyIdentityProvider requires a keystore parameter')
+    throw new Error("PublicKeyIdentityProvider requires a keystore parameter")
   }
 
   /**
@@ -48,11 +48,11 @@ const PublicKeyIdentityProvider = ({ keystore }) => async () => {
    */
   const getId = async ({ id } = {}) => {
     if (!id) {
-      throw new Error('id is required')
+      throw new Error("id is required")
     }
 
     const key = await keystore.getKey(id) || await keystore.createKey(id)
-    return uint8ArrayToString(key.public.marshal(), 'base16')
+    return uint8ArrayToString(key.public.marshal(), "base16")
   }
 
   /**
@@ -66,7 +66,7 @@ const PublicKeyIdentityProvider = ({ keystore }) => async () => {
    */
   const signIdentity = async (data, { id } = {}) => {
     if (!id) {
-      throw new Error('id is required')
+      throw new Error("id is required")
     }
 
     const key = await keystore.getKey(id)

@@ -27,8 +27,12 @@ interface TypedEventEmitter<Events extends EmittedEvents> {
 interface TypedEventEmitter<Events extends EmittedEvents> extends EventEmitter { }
 export declare module Databases {
 
-    type DatabaseTypes = "keyvalue" | "document" | "events" 
-    
+    // type DatabaseTypes = "keyvalue" | "document" | "events" 
+    const enum DatabaseTypes {
+        KeyValue = "keyvalue",
+        Document = "documents",
+        EventLog = "events"
+    } 
     interface BaseDatabase{
         access: AccessControllers.AccessController
         address: string
@@ -41,15 +45,22 @@ export declare module Databases {
         close(): Promise<void>
         drop(): Promise<void>
     }
-    type Pair<K, V> = { key: K, value: V }
+    type KVPair<K, V> = { key: K, value: V }
 
-    interface Document<K, V> extends BaseDatabase{ 
-        all(): Promise<Array<Pair<K, V>>>
-        del(key: K): Promise<string>
+    type DocumentTypeKey = string | number | symbol
+    type DocumentType<K extends DocumentTypeKey, V> = {
+        [key in K]: V 
+    }
+    // this should be a type that declares a record with a key of type K and a value of type V but with a required _id field
+    type DocumentTypeWithId<K extends DocumentTypeKey, V> = DocumentType<K, V> & { _id: string };
+
+    interface Document<K extends DocumentTypeKey, V extends DocumentTypeWithId<K, V>> extends BaseDatabase{ 
+        all(): Promise<Array<KVPair<K, V>>>
+        del(key: K): Promise<K>
         get(key: K): Promise<V>
-        iterator(filters?: { amount?: number }): AsyncGenerator<Pair<K, V>>
-        put({ key: K, value: V }): Promise<string>
-        query(findFn: (doc) => boolean): Array<Pair<K,V>>
+        iterator(filters?: { amount?: number }): AsyncGenerator<KVPair<K, V>>
+        put(entry: { key: K, value: V }): Promise<K>
+        query(findFn: (doc: DocumentType<K, V>) => boolean): Array<KVPair<K, V>>
     }
 
     interface Events<V> extends BaseDatabase{
@@ -60,23 +71,23 @@ export declare module Databases {
     }
 
     interface KeyValue<K, V> extends BaseDatabase {
-        all(): Promise<Array<Pair<K, V>>>
+        all(): Promise<Array<KVPair<K, V>>>
         del(key: K): Promise<string>
         get(key: K): Promise<V>
-        iterator(filters?: { amount?: number }): AsyncGenerator<Pair<K, V>>
+        iterator(filters?: { amount?: number }): AsyncGenerator<KVPair<K, V>>
         put(key: K, value: V): Promise<string>
     }
 
-    function Documents<K,V>(options?: { indexBy: string }): Databases.Document<K, V>
+    function Documents<K extends DocumentTypeKey, V>(options?: { indexBy: string }): Databases.Document<K,V>
     function Events<V>(options?: { indexBy: string }): Databases.Events<V>
     function KeyValue<K, V>(): Databases.KeyValue<K, V>
 
-    type Database<T extends DatabaseTypes, K, V> =
-    T extends "document" ? Document<K, V> :
-    T extends "events" ? Events<V> :
-    T extends "keyvalue" ? KeyValue<K, V> :
-        // if K or V are not specified then return unknown type for K and V
-    T extends "document" | "events" | "keyvalue"? Database<T, unknown, unknown>  :
-    never;
-
+    type Database<T extends DatabaseTypes, V, K> = (
+        T extends DatabaseTypes.KeyValue ? KeyValue<K, V> :
+        T extends DatabaseTypes.Document ? Document<K, V> :
+        T extends DatabaseTypes.EventLog ? Events<V> : 
+        // if T is not provided then database is eventlog
+        never
+    )
+        
 }

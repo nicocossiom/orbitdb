@@ -1,4 +1,4 @@
-import { compareClocks } from './clock.js'
+import { compareClocks } from "./clock.js"
 
 /**
  * Sort two entries as Last-Write-Wins (LWW).
@@ -11,7 +11,7 @@ import { compareClocks } from './clock.js'
  * @return {number} 1 if a is latest, -1 if b is latest
  * @private
  */
-function LastWriteWins (a, b) {
+function LastWriteWins(a, b) {
   // Ultimate conflict resolution (take the first/left arg)
   const First = (a, b) => a
   // Sort two entries by their clock id, if the same always take the first
@@ -34,7 +34,7 @@ function LastWriteWins (a, b) {
  * @return {number} 1 if a is greater, -1 if b is greater
  * @private
  */
-function SortByClocks (a, b, resolveConflict) {
+function SortByClocks(a, b, resolveConflict) {
   // Compare the clocks
   const diff = compareClocks(a.clock, b.clock)
   // If the clocks are concurrent, use the provided
@@ -52,7 +52,7 @@ function SortByClocks (a, b, resolveConflict) {
  * @return {number} 1 if a is greater, -1 if b is greater
  * @private
  */
-function SortByClockId (a, b, resolveConflict) {
+function SortByClockId(a, b, resolveConflict) {
   // Sort by ID if clocks are concurrent,
   // take the entry with a "greater" clock id
   return a.clock.id === b.clock.id
@@ -68,7 +68,7 @@ function SortByClockId (a, b, resolveConflict) {
  * @throws {Error} if func ever returns 0
  * @private
  */
-function NoZeroes (func) {
+function NoZeroes(func) {
   const msg = `Your log's tiebreaker function, ${func.name}, has returned zero and therefore cannot be`
 
   const comparator = (a, b) => {

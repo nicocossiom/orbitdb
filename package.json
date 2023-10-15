@@ -12,10 +12,9 @@
     "node": ">=16.0.0"
   },
   "files": [
-    "src",
-    "dist"
+    "src"
   ],
-  "types": "types",
+  "types": "dist",
   "type": "module",
   "main": "src/index.js",
   "dependencies": {

@@ -55,4 +55,4 @@ const Clock = (id, time) => {
   }
 }
 
-export { Clock as default, compareClocks, tickClock }
+export { compareClocks, Clock as default, tickClock }

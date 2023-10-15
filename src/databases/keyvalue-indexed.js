@@ -17,11 +17,11 @@
  * @augments module:Databases~Database
  * @augments module:Databases.Databases-KeyValue
  */
-import KeyValue from './keyvalue.js'
-import LevelStorage from '../storage/level.js'
-import pathJoin from '../utils/path-join.js'
+import LevelStorage from "../storage/level.js"
+import pathJoin from "../utils/path-join.js"
+import KeyValue from "./keyvalue.js"
 
-const valueEncoding = 'json'
+const valueEncoding = "json"
 
 /**
  * Defines a KeyValueIndexed database.
@@ -32,7 +32,7 @@ const valueEncoding = 'json'
  * @memberof module:Databases
  */
 const KeyValueIndexed = ({ storage } = {}) => async ({ ipfs, identity, address, name, access, directory, meta, headsStorage, entryStorage, indexStorage, referencesCount, syncAutomatically, onUpdate }) => {
-  const indexDirectory = pathJoin(directory || './orbitdb', `./${address}/_index/`)
+  const indexDirectory = pathJoin(directory || "./orbitdb", `./${address}/_index/`)
   const index = storage || await LevelStorage({ path: indexDirectory, valueEncoding })
 
   let latestOplogHash
@@ -44,10 +44,10 @@ const KeyValueIndexed = ({ storage } = {}) => async ({ ipfs, identity, address, 
     for await (const entry of it) {
       const { op, key, value } = entry.payload
 
-      if (op === 'PUT' && !keys[key]) {
+      if (op === "PUT" && !keys[key]) {
         keys[key] = true
         await index.put(key, value)
-      } else if (op === 'DEL' && !keys[key]) {
+      } else if (op === "DEL" && !keys[key]) {
         keys[key] = true
         await index.del(key)
       }
@@ -87,7 +87,7 @@ const KeyValueIndexed = ({ storage } = {}) => async ({ ipfs, identity, address, 
    * @memberof module:Databases.Databases-KeyValueIndexed
    * @instance
    */
-  const iterator = async function * ({ amount } = {}) {
+  const iterator = async function* ({ amount } = {}) {
     const it = keyValueStore.iterator({ amount })
     for await (const { key, value, hash } of it) {
       yield { key, value, hash }
@@ -119,6 +119,6 @@ const KeyValueIndexed = ({ storage } = {}) => async ({ ipfs, identity, address, 
   }
 }
 
-KeyValueIndexed.type = 'keyvalue'
+KeyValueIndexed.type = "keyvalue"
 
 export default KeyValueIndexed

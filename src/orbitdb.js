@@ -2,17 +2,17 @@
 * @module OrbitDB
 * @description Provides an interface for users to interact with OrbitDB.
 */
-import { getDatabaseType } from './databases/index.js'
-import KeyStore from './key-store.js'
-import { Identities } from './identities/index.js'
-import OrbitDBAddress, { isValidAddress } from './address.js'
-import ManifestStore from './manifest-store.js'
-import { createId } from './utils/index.js'
-import pathJoin from './utils/path-join.js'
-import { getAccessController } from './access-controllers/index.js'
-import IPFSAccessController from './access-controllers/ipfs.js'
+import { getAccessController } from "./access-controllers/index.js"
+import IPFSAccessController from "./access-controllers/ipfs.js"
+import OrbitDBAddress, { isValidAddress } from "./address.js"
+import { getDatabaseType } from "./databases/index.js"
+import { Identities } from "./identities/index.js"
+import KeyStore from "./key-store.js"
+import ManifestStore from "./manifest-store.js"
+import { createId } from "./utils/index.js"
+import pathJoin from "./utils/path-join.js"
 
-const DefaultDatabaseType = 'events'
+const DefaultDatabaseType = "events"
 
 const DefaultAccessController = IPFSAccessController
 
@@ -37,19 +37,19 @@ const OrbitDB = async ({ ipfs, id, identity, identities, directory } = {}) => {
    */
 
   if (ipfs == null) {
-    throw new Error('IPFS instance is a required argument.')
+    throw new Error("IPFS instance is a required argument.")
   }
 
   id = id || await createId()
   const { id: peerId } = await ipfs.id()
-  directory = directory || './orbitdb'
+  directory = directory || "./orbitdb"
 
   let keystore
 
   if (identities) {
     keystore = identities.keystore
   } else {
-    keystore = await KeyStore({ path: pathJoin(directory, './keystore') })
+    keystore = await KeyStore({ path: pathJoin(directory, "./keystore") })
     identities = await Identities({ ipfs, keystore })
   }
 
@@ -123,7 +123,7 @@ const OrbitDB = async ({ ipfs, id, identity, identities, directory } = {}) => {
       // If the address given was a valid OrbitDB address, eg. '/orbitdb/zdpuAuK3BHpS7NvMBivynypqciYCuy2UW77XYBPUYRnLjnw13'
       const addr = OrbitDBAddress(address)
       manifest = await manifestStore.get(addr.hash)
-      const acType = manifest.accessController.split('/', 2).pop()
+      const acType = manifest.accessController.split("/", 2).pop()
       AccessController = getAccessController(acType)()
       accessController = await AccessController({ orbitdb: { open, identity, ipfs }, identities, address: manifest.accessController })
       name = manifest.name
@@ -155,7 +155,7 @@ const OrbitDB = async ({ ipfs, id, identity, identities, directory } = {}) => {
 
     const db = await Database({ ipfs, identity, address, name, access: accessController, directory, meta, syncAutomatically: sync, headsStorage, entryStorage, indexStorage, referencesCount })
 
-    db.events.on('close', onDatabaseClosed(address))
+    db.events.on("close", onDatabaseClosed(address))
 
     databases[address] = db
 
@@ -198,4 +198,5 @@ const OrbitDB = async ({ ipfs, id, identity, identities, directory } = {}) => {
   }
 }
 
-export { OrbitDB as default, OrbitDBAddress }
+export { OrbitDBAddress, OrbitDB as default }
+

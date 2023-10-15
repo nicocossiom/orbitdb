@@ -6,12 +6,12 @@
  * Implemented as a Merkle-CRDT as per the paper
  * ["Merkle-CRDTs: Merkle-DAGs meet CRDTs"]{@link https://arxiv.org/abs/2004.00107}
  */
-import LRU from 'lru'
-import Entry from './entry.js'
-import Clock, { tickClock } from './clock.js'
-import Heads from './heads.js'
-import ConflictResolution from './conflict-resolution.js'
-import MemoryStorage from '../storage/memory.js'
+import LRU from "lru"
+import MemoryStorage from "../storage/memory.js"
+import Clock, { tickClock } from "./clock.js"
+import ConflictResolution from "./conflict-resolution.js"
+import Entry from "./entry.js"
+import Heads from "./heads.js"
 
 const { LastWriteWins, NoZeroes } = ConflictResolution
 
@@ -57,10 +57,10 @@ const Log = async (identity, { logId, logHeads, access, entryStorage, headsStora
    */
 
   if (identity == null) {
-    throw new Error('Identity is required')
+    throw new Error("Identity is required")
   }
   if (logHeads != null && !Array.isArray(logHeads)) {
-    throw new Error('\'logHeads\' argument must be an array')
+    throw new Error("'logHeads' argument must be an array")
   }
   // Set Log's id
   const id = logId || randomId()
@@ -201,10 +201,10 @@ const Log = async (identity, { logId, logHeads, access, entryStorage, headsStora
    */
   const join = async (log) => {
     if (!log) {
-      throw new Error('Log instance not defined')
+      throw new Error("Log instance not defined")
     }
     if (!isLog(log)) {
-      throw new Error('Given argument is not an instance of Log')
+      throw new Error("Given argument is not an instance of Log")
     }
     const heads = await log.heads()
     for (const entry of heads) {
@@ -278,7 +278,7 @@ const Log = async (identity, { logId, logHeads, access, entryStorage, headsStora
    * @memberof module:Log~Log
    * @instance
    */
-  const traverse = async function * (rootEntries, shouldStopFn, useRefs = true) {
+  const traverse = async function* (rootEntries, shouldStopFn, useRefs = true) {
     // By default, we don't stop traversal and traverse
     // until the end of the log
     const defaultStopFn = () => false
@@ -373,25 +373,25 @@ const Log = async (identity, { logId, logHeads, access, entryStorage, headsStora
    * @memberof module:Log~Log
    * @instance
    */
-  const iterator = async function * ({ amount = -1, gt, gte, lt, lte } = {}) {
+  const iterator = async function* ({ amount = -1, gt, gte, lt, lte } = {}) {
     // TODO: write comments on how the iterator algorithm works
 
     if (amount === 0) {
       return
     }
 
-    if (typeof lte === 'string') {
+    if (typeof lte === "string") {
       lte = [await get(lte)]
     }
 
-    if (typeof lt === 'string') {
+    if (typeof lt === "string") {
       const entry = await get(lt)
       const nexts = await Promise.all(entry.next.map(n => get(n)))
       lt = nexts
     }
 
-    if (lt != null && !Array.isArray(lt)) throw new Error('lt must be a string or an array of Entries')
-    if (lte != null && !Array.isArray(lte)) throw new Error('lte must be a string or an array of Entries')
+    if (lt != null && !Array.isArray(lt)) throw new Error("lt must be a string or an array of Entries")
+    if (lte != null && !Array.isArray(lte)) throw new Error("lte must be a string or an array of Entries")
 
     const start = (lt || (lte || await heads())).filter(i => i != null)
     const end = (gt || gte) ? await get(gt || gte) : null
@@ -523,4 +523,5 @@ const Log = async (identity, { logId, logHeads, access, entryStorage, headsStora
   }
 }
 
-export { Log as default, DefaultAccessController, Clock }
+export { Clock, DefaultAccessController, Log as default }
+

@@ -1,6 +1,6 @@
 import { IPFS } from "ipfs-core-types"
-import { KeyStore } from "./keystore.d"
-import { Storage } from "./storage.d"
+import { KeyStore } from "./keystore"
+import { Storage } from "./storage"
 
 export declare module Identities{
     type Identity = {

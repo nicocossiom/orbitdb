@@ -1,6 +1,6 @@
 export {
   default as createOrbitDB
-} from './orbitdb.js'
+} from "./orbitdb.js"
 
 export {
   Documents,
@@ -8,36 +8,30 @@ export {
   KeyValue,
   KeyValueIndexed,
   useDatabaseType
-} from './databases/index.js'
+} from "./databases/index.js"
 
 export {
   isValidAddress,
   parseAddress
-} from './address.js'
+} from "./address.js"
 
-export { Log, Entry, DefaultAccessController } from './oplog/index.js'
+export { DefaultAccessController, Entry, Log } from "./oplog/index.js"
 
-export { default as Database } from './database.js'
+export { default as Database } from "./database.js"
 
-export { default as KeyStore } from './key-store.js'
+export { default as KeyStore } from "./key-store.js"
 
 export {
-  useAccessController,
   IPFSAccessController,
-  OrbitDBAccessController
-} from './access-controllers/index.js'
+  OrbitDBAccessController, useAccessController
+} from "./access-controllers/index.js"
 
 export {
-  Identities,
-  isIdentity,
-  useIdentityProvider,
-  PublicKeyIdentityProvider
-} from './identities/index.js'
+  Identities, PublicKeyIdentityProvider, isIdentity,
+  useIdentityProvider
+} from "./identities/index.js"
 
 export {
-  IPFSBlockStorage,
-  LevelStorage,
-  LRUStorage,
-  MemoryStorage,
-  ComposedStorage
-} from './storage/index.js'
+  ComposedStorage, IPFSBlockStorage, LRUStorage, LevelStorage, MemoryStorage
+} from "./storage/index.js"
+

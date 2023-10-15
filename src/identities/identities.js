@@ -4,15 +4,15 @@
  * Identities provides a framework for generating and managing identity
  * details and providers.
  */
-import Identity, { isIdentity, isEqual, decodeIdentity } from './identity.js'
-import { getIdentityProvider } from './providers/index.js'
+import Identity, { decodeIdentity, isEqual, isIdentity } from "./identity.js"
+import { getIdentityProvider } from "./providers/index.js"
 // import DIDIdentityProvider from './identity-providers/did.js'
 // import EthIdentityProvider from './identity-providers/ethereum.js'
-import KeyStore, { signMessage, verifyMessage } from '../key-store.js'
-import { LRUStorage, IPFSBlockStorage, MemoryStorage, ComposedStorage } from '../storage/index.js'
-import pathJoin from '../utils/path-join.js'
+import KeyStore, { signMessage, verifyMessage } from "../key-store.js"
+import { ComposedStorage, IPFSBlockStorage, LRUStorage, MemoryStorage } from "../storage/index.js"
+import pathJoin from "../utils/path-join.js"
 
-const DefaultIdentityKeysPath = pathJoin('./orbitdb', 'identities')
+const DefaultIdentityKeysPath = pathJoin("./orbitdb", "identities")
 
 /**
  * Creates an instance of Identities.
@@ -71,13 +71,13 @@ const Identities = async ({ keystore, path, storage, ipfs } = {}) => {
    */
   const createIdentity = async (options = {}) => {
     options.keystore = keystore
-    const DefaultIdentityProvider = getIdentityProvider('publickey')
+    const DefaultIdentityProvider = getIdentityProvider("publickey")
     const identityProviderInit = options.provider || DefaultIdentityProvider({ keystore })
 
     const identityProvider = await identityProviderInit()
 
     if (!getIdentityProvider(identityProvider.type)) {
-      throw new Error('Identity provider is unknown. Use useIdentityProvider(provider) to register the identity provider')
+      throw new Error("Identity provider is unknown. Use useIdentityProvider(provider) to register the identity provider")
     }
 
     const id = await identityProvider.getId(options)
@@ -146,7 +146,7 @@ const Identities = async ({ keystore, path, storage, ipfs } = {}) => {
     const signingKey = await keystore.getKey(identity.id)
 
     if (!signingKey) {
-      throw new Error('Private signing key not found from KeyStore')
+      throw new Error("Private signing key not found from KeyStore")
     }
 
     return await signMessage(signingKey, data)

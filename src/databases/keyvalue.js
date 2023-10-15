@@ -6,9 +6,9 @@
  *
  * @augments module:Databases~Database
  */
-import Database from '../database.js'
+import Database from "../database.js"
 
-const type = 'keyvalue'
+const type = "keyvalue"
 
 /**
  * Defines an KeyValue database.
@@ -30,7 +30,7 @@ const KeyValue = () => async ({ ipfs, identity, address, name, access, directory
    * @instance
    */
   const put = async (key, value) => {
-    return addOperation({ op: 'PUT', key, value })
+    return addOperation({ op: "PUT", key, value })
   }
 
   /**
@@ -41,7 +41,7 @@ const KeyValue = () => async ({ ipfs, identity, address, name, access, directory
    * @instance
    */
   const del = async (key) => {
-    return addOperation({ op: 'DEL', key, value: null })
+    return addOperation({ op: "DEL", key, value: null })
   }
 
   /**
@@ -55,9 +55,9 @@ const KeyValue = () => async ({ ipfs, identity, address, name, access, directory
   const get = async (key) => {
     for await (const entry of log.traverse()) {
       const { op, key: k, value } = entry.payload
-      if (op === 'PUT' && k === key) {
+      if (op === "PUT" && k === key) {
         return value
-      } else if (op === 'DEL' && k === key) {
+      } else if (op === "DEL" && k === key) {
         return
       }
     }
@@ -72,17 +72,17 @@ const KeyValue = () => async ({ ipfs, identity, address, name, access, directory
    * @memberof module:Databases.Databases-KeyValue
    * @instance
    */
-  const iterator = async function * ({ amount } = {}) {
+  const iterator = async function* ({ amount } = {}) {
     const keys = {}
     let count = 0
     for await (const entry of log.traverse()) {
       const { op, key, value } = entry.payload
-      if (op === 'PUT' && !keys[key]) {
+      if (op === "PUT" && !keys[key]) {
         keys[key] = true
         count++
         const hash = entry.hash
         yield { key, value, hash }
-      } else if (op === 'DEL' && !keys[key]) {
+      } else if (op === "DEL" && !keys[key]) {
         keys[key] = true
       }
       if (count >= amount) {

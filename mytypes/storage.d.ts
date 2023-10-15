@@ -11,14 +11,14 @@ export declare module Storage {
 
     }
     interface LRUStorage extends Storage { }
-    interface LevelStorage extends Storage { }
-    interface MemoryStorage extends Storage { }
-    interface IPFSBlockStorage extends Storage { }
-    interface ComposedStorage extends Storage { }
-    function ComposedStorage(storage1: Storage, storage2:Storage):Promise<ComposedStorage>
-    function IPFSBlockStorage():Promise<IPFSBlockStorage>
     function LRUStorage(): Promise<LRUStorage>
+    interface LevelStorage extends Storage { }
     function LevelStorage(): Promise<LevelStorage>
     function MemoryStorage(): Promise<MemoryStorage>
+    interface MemoryStorage extends Storage { }
+    interface IPFSBlockStorage extends Storage { }
+    function IPFSBlockStorage():Promise<IPFSBlockStorage>
+    interface ComposedStorage extends Storage { }
+    function ComposedStorage(storage1: Storage, storage2:Storage):Promise<ComposedStorage>
 
 }
