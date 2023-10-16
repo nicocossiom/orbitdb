@@ -2,7 +2,7 @@ import { BaseDatabase } from "../database"
 
 export default KeyValue
 
-interface KeyValue<K, V> extends BaseDatabase {
+export interface KeyValue<K, V> extends BaseDatabase {
     all(): Promise<Array<KVPair<K, V>>>
     del(key: K): Promise<string>
     get(key: K): Promise<V>

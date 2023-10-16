@@ -19,3 +19,7 @@ dist/
 # JSDoc output folder
 docs/api/*
 !docs/api/README.md
+
+orbitdb
+mytypes
+keystore

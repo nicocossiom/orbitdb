@@ -15,6 +15,6 @@ declare const type: "events"
 export interface Events<V> extends BaseDatabase{
     add(value: V): Promise<string>
     all(): Promise<Array<{ hash: string, value: V }>>
-    get(hash: string): V
+    get(hash: string): Promise<V>
     iterator(filters?: LogIteratorOptions): AsyncGenerator<{ hash: string, value: V }>
 }

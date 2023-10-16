@@ -1,6 +1,6 @@
 export default KeyValueIndexed
 import { Storage as OrbitStorage } from "../storage"
-import KeyValue from "./keyvalue"
+import {KeyValue} from "./keyvalue"
 /**
  * Defines a KeyValueIndexed database.
  * @param {module:Storage} [storage=LevelStorage] A compatible storage where

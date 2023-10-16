@@ -14,7 +14,7 @@
   "files": [
     "src"
   ],
-  "types": "dist",
+  "types": "types",
   "type": "module",
   "main": "src/index.js",
   "dependencies": {
@@ -27,7 +27,8 @@
     "p-queue": "^7.4.1",
     "timeout-abort-controller": "^3.0.0",
     "typescript": "^5.2.2",
-    "uint8arrays": "^4.0.6"
+    "uint8arrays": "^4.0.6",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@libp2p/interface": "^0.1.3",

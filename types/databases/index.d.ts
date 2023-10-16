@@ -1,8 +1,9 @@
-import Documents from "./documents.js";
-import Events from "./events.js";
-import KeyValue from "./keyvalue.js";
-import KeyValueIndexed from "./keyvalue-indexed.js";
-export function getDatabaseType(type: any): any;
+import Documents from "./documents.js"
+import Events from "./events.js"
+import KeyValueIndexed from "./keyvalue-indexed.js"
+import KeyValue from "./keyvalue.js"
+
+export function getDatabaseType(type: string): any;
 /**
  * Add a new database type.
  * @example
@@ -18,5 +19,7 @@ export function getDatabaseType(type: any): any;
  * @throws Database type '${store.type}' already added.
  * @memberof module:Databases
  */
-export function useDatabaseType(database: any): void;
-export { Documents, Events, KeyValue, KeyValueIndexed };
+export function useDatabaseType(database: string): void;
+export { Documents, Events, KeyValue, KeyValueIndexed }
+
+export type DatabaseTypes = typeof Documents.type |typeof  Events.type | typeof KeyValue.type

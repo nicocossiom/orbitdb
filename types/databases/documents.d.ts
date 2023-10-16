@@ -6,10 +6,10 @@ export default Documents
  * @return {module:Databases.Databases-Documents} A Documents function.
  * @memberof module:Databases
  */
-declare function Documents({ indexBy }?: {
-    indexBy?: string;
-}): any;
+declare function Documents(params?: { indexBy: string }): Documents;
 declare namespace Documents {
     export { type }
 }
 declare const type: "documents"
+
+export interface Documents {}
