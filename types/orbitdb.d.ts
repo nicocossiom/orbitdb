@@ -26,7 +26,7 @@ declare function OrbitDB(params: CreateOrbitDBParams): OrbitDB
 
 type CreateOrbitDBParams = {
     ipfs: IPFS
-    id?: string, 
+    id?: string,
     identity?: Identity
     identities?: Identities
     directory?: string
@@ -57,7 +57,7 @@ export interface OrbitDB {
     peerId: PeerId
 }
 
-type DatabaseType<T> = 
+type DatabaseType<T> =
     T extends Document ? "document" :
     T extends KeyValue<unknown, unknown> ? "keyvalue" :
     T extends Events<unknown> ? "events" :

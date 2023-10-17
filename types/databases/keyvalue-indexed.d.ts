@@ -1,6 +1,6 @@
 export default KeyValueIndexed
 import { Storage as OrbitStorage } from "../storage"
-import {KeyValue} from "./keyvalue"
+import { KeyValue } from "./keyvalue"
 /**
  * Defines a KeyValueIndexed database.
  * @param {module:Storage} [storage=LevelStorage] A compatible storage where
@@ -9,7 +9,7 @@ import {KeyValue} from "./keyvalue"
  * function.
  * @memberof module:Databases
  */
-declare function KeyValueIndexed<K, V, I extends keyof V>(params?:{ storage: OrbitStorage }): KeyValueIndexed<K, V, I>;
+declare function KeyValueIndexed<K, V, I extends keyof V>(params?: { storage: OrbitStorage }): KeyValueIndexed<K, V, I>;
 declare namespace KeyValueIndexed {
     let type: string
 }

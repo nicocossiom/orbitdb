@@ -28,24 +28,30 @@ declare function Log(
     ipfs: IPFS,
     identity: Identity,
     options: {
-        logId: string, 
-        access: AccessController, 
-        entries: Array<Entry>, 
-        heads: Array<Entry>, 
-        clock: Clock, 
+        logId: string,
+        access: AccessController,
+        entries: Array<Entry>,
+        heads: Array<Entry>,
+        clock: Clock,
         sortFn: (a: Entry, b: Entry) => number,
     }
-    ): Log
-    
+): Log
+
+
 export type LogIteratorOptions = {
+    /** The number of results to fetch. Default: -1 (all)*/
     amount?: number,
+    /** All events which are greater than the given hash. */
     gt?: string,
+    /** All events which are greater than or equal to the given hash. */
     gte?: string,
+    /** All events which are less than the given hash */
     le?: string,
+    /** All events which are less than or equal to the given hash. */
     lte?: string
 }
-interface Log{    
-    append(data, options?: {referencesCount: number}): Promise<Entry>
+interface Log {
+    append(data, options?: { referencesCount: number }): Promise<Entry>
     clear(): Promise<void>
     clock(): Promise<Clock>
     close(): Promise<void>

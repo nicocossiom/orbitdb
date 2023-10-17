@@ -3,7 +3,6 @@ import { IPFS } from "ipfs-core-types"
 import { AccessController } from "./access-controllers"
 import { Identity } from "./identities"
 import { Entry, Log } from "./oplog"
-import { LogIteratorOptions } from "./oplog/log"
 import { Sync } from "./sync"
 export default Database
 /**
@@ -36,24 +35,24 @@ export default Database
  */
 declare function Database(params?:
     {
-    ipfs: IPFS, 
-    identity: Identity, 
-    address: string, 
-    name: string, 
-    access: AccessController
-    directory?: string, 
-    meta: unknown, 
-    headsStorage: Storage, 
-    entryStorage: Storage, 
-    indexStorage: Storage, 
-    referencesCount: number, 
-    syncAutomatically: boolean, 
-    onUpdate: (log: Log, entry: Entry) => Promise<void>
-}
-) : BaseDatabase
+        ipfs: IPFS,
+        identity: Identity,
+        address: string,
+        name: string,
+        access: AccessController
+        directory?: string,
+        meta: unknown,
+        headsStorage: Storage,
+        entryStorage: Storage,
+        indexStorage: Storage,
+        referencesCount: number,
+        syncAutomatically: boolean,
+        onUpdate: (log: Log, entry: Entry) => Promise<void>
+    }
+): BaseDatabase
 
 
-type DatabaseEvents = { 
+type DatabaseEvents = {
     "close": () => void
     "drop": () => void
     "join": (peer: PeerId, heads: Array<Entry>) => void
@@ -79,13 +78,13 @@ declare const enum DatabaseTypes {
     KeyValue = "keyvalue",
     Document = "documents",
     EventLog = "events"
-} 
-export interface BaseDatabase{
+}
+export interface BaseDatabase {
     access: AccessController
     address: string
     events: TypedEventEmitter<DatabaseEvents>
-    log: Log, 
-    name: string, 
+    log: Log,
+    name: string,
     peers: Set<PeerId>
     sync: Sync
     addOperation(op: { op: "PUT" | "DEL" | "ADD" }, key, value): Promise<string>
