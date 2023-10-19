@@ -12,7 +12,7 @@ declare namespace Events {
 }
 declare const type: "events"
 
-export interface Events<V> extends BaseDatabase{
+interface Events<V> extends BaseDatabase {
     /**
      * Adds an event to the store.
      *  @param value The event to be added.

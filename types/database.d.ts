@@ -88,6 +88,7 @@ export interface BaseDatabase {
     peers: Set<PeerId>
     sync: Sync
     addOperation(op: { op: "PUT" | "DEL" | "ADD" }, key, value): Promise<string>
+    type: string,
     close(): Promise<void>
     drop(): Promise<void>
 }

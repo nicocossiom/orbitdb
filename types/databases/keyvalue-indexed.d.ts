@@ -14,4 +14,4 @@ declare namespace KeyValueIndexed {
     let type: string
 }
 
-export interface KeyValueIndexed<K, V, I extends keyof V> extends KeyValue<K, V> { }
+interface KeyValueIndexed<K, V, I extends keyof V> extends KeyValue<K, V> { }
