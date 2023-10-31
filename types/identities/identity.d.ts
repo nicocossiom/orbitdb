@@ -60,5 +60,5 @@ export function isEqual(a:Identity, b: Identity): boolean
  */
 export function isIdentity(identity: unknown): boolean;
 export function decodeIdentity(bytes: Uint8Array): Promise<Identity>;
-export { Identity as default }
+export { Identity as default };
 

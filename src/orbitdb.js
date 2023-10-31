@@ -16,6 +16,31 @@ const DefaultDatabaseType = "events"
 
 const DefaultAccessController = IPFSAccessController
 
+
+/**
+ * @typedef {Object} OpenFnParams
+ * @property {string} OpenFnParams.directory - The directory to use for this database.
+ * ....etc
+ */
+
+/** 
+ * @typedef {( params: OpenFnParams) => import("./database.js").Database} openFn
+*/
+
+/**
+ * @typedef {Object} OrbitDB
+ * @property {string} OrbitDB.id - The id for this OrbitDB instance.
+ * @property {import("ipfs-core").IPFS} OrbitDB.ipfs - The IPFS instance used by this OrbitDB instance.
+ * @property {string} OrbitDB.directory - The directory used by this OrbitDB instance.
+ * @property {import("./key-store.js").KeyStore} OrbitDB.keystore - The keystore used by this OrbitDB instance.
+ * @property {import("./identities/identity.js").Identity} OrbitDB.identity - The identity used by this OrbitDB instance.
+ * @property {import("@libp2p/interface-peer-id").PeerId} OrbitDB.peerId - The peerId used by this OrbitDB instance.
+ * @property {{ [key: string]: import("./database.js").Database }} OrbitDB.databases - The databases used by this OrbitDB instance.
+ * @property {()=>void} OrbitDB.stop - Stops OrbitDB, closing the underlying keystore and manifest store.
+ * @property {openFn} OrbitDB.open - Opens a database.
+ */
+
+
 /**
  * Creates an instance of OrbitDB.
  * @function createOrbitDB

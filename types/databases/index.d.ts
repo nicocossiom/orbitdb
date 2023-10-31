@@ -21,5 +21,5 @@ export function getDatabaseType(type: Databases): unknown;
  */
 export function useDatabaseType(database: unknown): void;
 export { Documents, Events, KeyValue, KeyValueIndexed }
-export type Databases = Documents<unknown, unknown> | KeyValue<unknown, unknown> | Events<unknown>
+export type Databases = Documents<Record<string | number | symbol, unknown>> | KeyValue<unknown, unknown> | Events<unknown>
 export type DatabaseTypes = typeof Documents.type | typeof Events.type | typeof KeyValue.type
