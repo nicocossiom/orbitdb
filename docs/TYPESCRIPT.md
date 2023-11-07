@@ -7,7 +7,7 @@
 
 - [Orbitdb typescript definitions](#orbitdb-typescript-definitions)
   - [Install](#install)
-  - [Why are types are manually written?](#why-are-types-are-manually-written)
+  - [Why are the typing definitions manually written?](#why-are-the-typing-definitions-manually-written)
   - [Usage](#usage)
     - [Disclaimer: Data safety in typescript](#disclaimer-data-safety-in-typescript)
     - [Untyped vs Typed databases](#untyped-vs-typed-databases)
@@ -26,7 +26,7 @@
 
 Orbitdb typescript definitions are bundled with orbitdb starting from version 1.0.1. No extra steps required.
 
-## Why are types are manually written?
+## Why are the typing definitions manually written?
 
 Orbitdb is written in pure Javascript, and although it contains JSDoc with type annotations, they are not well typed and have issues since their intended use is to provide documentation for the generated [API website](http://api.orbitdb.org). Since generating typescript definitions from the JSDoc was not a valid option, it was decided to mantain manual definitions, since the alternative would be to migrate the source code to typescript, or redo the API website.
 
@@ -81,15 +81,15 @@ This means that all operations on the database will deal with unknown data. Mean
 
 This is valid but not the recommended way to use orbitdb with typescript.
 
-See the [orbitdb definition](https://github.com/orbitdb/orbitdb/tree/main/types/orbitdb.d.ts) for more information.
+See the [orbitdb definition](../types/orbitdb.d.ts) for more information.
 
 ### Opening/Creating databases
 
-By default, OrbitDB will create a database of type [Events](https://github.com/orbitdb/orbitdb/tree/main/types/databases/events.d.ts). This typings package forces the use of the Database type parameter to be specified. Refer to the functions that create a database:
+By default, OrbitDB will create a database of type [Events](../types/databases/events.d.ts). This typings package forces the use of the Database type parameter to be specified. Refer to the functions that create a database:
 
-- [Documents](https://github.com/orbitdb/orbitdb/tree/main/types/databases/documents.d.ts)
-- [Events](https://github.com/orbitdb/orbitdb/tree/main/types/databases/events.d.ts)
-- [KeyValue](https://github.com/orbitdb/orbitdb/tree/main/types/databases/keyvalue.d.ts)
+- [Documents](../types/databases/documents.d.ts)
+- [Events](../types/databases/events.d.ts)
+- [KeyValue](../types/databases/keyvalue.d.ts)
 
 #### `type` parameter
 
@@ -103,7 +103,7 @@ This makes the parameter `type` obsolete. It can still be used but type restrain
 >I was expecting a type matching "events", but instead you passed "documents".
 >(property) type?: "events" | undefined
 
-The type must be listed in [DatabaseTypes](https://github.com/orbitdb/orbitdb/tree/main/types/databases/index.d.ts) or an error is thrown.
+The type must be listed in [DatabaseTypes](../types/databases/index.d.ts) or an error is thrown.
 
 #### Open an existing database by address
 
@@ -175,4 +175,4 @@ A document database has to type parameters:
 
 ## Testing
 
-Tests for typescript definitions are provided inside of the [test](https://github.com/orbitdb/orbitdb/tree/main/test/types) folder. They are run with [tsd]()
+Tests for typescript definitions are provided inside of the [test](../test/types/types.test.ts) folder. They are run with [tsd]()
