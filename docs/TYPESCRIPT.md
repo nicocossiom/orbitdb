@@ -14,9 +14,11 @@
     - [Opening/Creating databases](#openingcreating-databases)
       - [`type` parameter](#type-parameter)
       - [Open an existing database by address](#open-an-existing-database-by-address)
+      - [Open/Create a database by name and database type](#opencreate-a-database-by-name-and-database-type)
       - [Events](#events)
       - [Documents](#documents)
       - [KeyValue](#keyvalue)
+  - [Testing](#testing)
 
 <!-- /code_chunk_output -->
 
@@ -122,16 +124,18 @@ TypeScript doesn't know the type of database being opened. To specify it use the
  const existingDB : Events<string> // we have narrowed down the type by using the generic type parameter
 ```
 
+#### Open/Create a database by name and database type
+
+As specified before the Database field of the second argument must be a function that returns the desired databse type.
+This functions accept generic arguments that specify the type of the values inside the database.
+
 #### Events
 
 ```ts
  import { Events } from '@orbitdb/core'
  const mydb = await orbitdb.open('mydb', {Database: Events<string>()})
-```
-
-```ts
  const mydb : Events<string>
- ```
+```
 
 Trying to store anything of type than string will result in a type error.
 
@@ -145,9 +149,6 @@ await mydb.add(1)
 ```ts
 const hash = await mydb.add("hello")
 const entry = await mydb.get(hash)
-```
-
-```ts
 const entry : string
 ```
 
@@ -162,13 +163,8 @@ A document is a structured record that contains information or data, often repre
   age: number
  } // this is the same as type User = {name: string, age: number}
  const db = await orbitdb.Documents<User>("users")
+ const db :  
  ```
-
- This results on `mydb` being of type:
-
-```ts
-const db :  
-```
 
 A document database has to type parameters:
 
@@ -176,3 +172,7 @@ A document database has to type parameters:
 2. The index key
 
 #### KeyValue
+
+## Testing
+
+Tests for typescript definitions are provided inside of the [test](https://github.com/orbitdb/orbitdb/tree/main/test/types) folder. They are run with [tsd]()

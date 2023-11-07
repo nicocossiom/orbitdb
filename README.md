@@ -87,7 +87,7 @@ See [https://api.orbitdb.org](https://api.orbitdb.org) for the full API document
 ### Using orbitdb with Typescript
 
 From version 1.0.1 orbitdb includes typescript definitions. Types are bundled inside the `types` folder [here](https://github.com/orbitdb/orbitdb/tree/main/types).
-See [the typescript guide](https://github.com/orbitdb/orbitdb/blob/main/docs/TYPESCRIPT.md) for more information.
+See [the typescript guide](./docs/TYPESCRIPT.md) for more information.
 
 ## Development
 
