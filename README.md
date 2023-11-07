@@ -29,7 +29,7 @@ A Go implementation is developed and maintained by the [Berty](https://github.co
 npm install @orbitdb/core
 ```
 
-### Browser <script> tag
+### Browser \<script> tag
 
 OrbitDB can be loaded in the browser using the distributed js file with the `<script/>` tag. OrbitDB is the global namespace and all external functions are available via this namespace:
 
@@ -84,19 +84,27 @@ Use the **[Getting Started](https://github.com/orbitdb/orbitdb/blob/main/docs/GE
 
 See [https://api.orbitdb.org](https://api.orbitdb.org) for the full API documentation.
 
+### Using orbitdb with Typescript
+
+From version 1.0.1 orbitdb includes typescript definitions. Types are bundled inside the `types` folder [here](https://github.com/orbitdb/orbitdb/tree/main/types).
+See [the typescript guide](https://github.com/orbitdb/orbitdb/blob/main/docs/TYPESCRIPT.md) for more information.
+
 ## Development
 
 ### Run Tests
+
 ```sh
 npm run test
 ```
 
 ### Build
+
 ```sh
 npm run build
 ```
 
 ### Benchmark
+
 ```sh
 node benchmarks/benchmark-add.js
 ```
@@ -130,10 +138,10 @@ If you want to code but don't know where to start, check out the issues labelled
 
 The development of OrbitDB has been sponsored by:
 
-* [Protocol Labs](https://protocol.ai/)
-* [Haja Networks](https://haja.io)
-* [Maintainer Mountaineer](https://maintainer.io)
-* [OrbitDB Open Collective](https://opencollective.com/orbitdb)
+- [Protocol Labs](https://protocol.ai/)
+- [Haja Networks](https://haja.io)
+- [Maintainer Mountaineer](https://maintainer.io)
+- [OrbitDB Open Collective](https://opencollective.com/orbitdb)
 
 If you want to sponsor developers to work on OrbitDB, please donate to our [OrbitDB Open Collective](https://opencollective.com/orbitdb) or reach out to [@haadcode](https://github.com/haadcode).
 
