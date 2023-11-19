@@ -1,15 +1,13 @@
 
 # Orbitdb typescript definitions
+# OrbitDB Typescript definitions
 
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-
-<!-- code_chunk_output -->
-
-- [Orbitdb typescript definitions](#orbitdb-typescript-definitions)
+<!--toc:start-->
+- [OrbitDB Typescript definitions](#OrbitDB-Typescript-definitions)
   - [Install](#install)
   - [Why are the typing definitions manually written?](#why-are-the-typing-definitions-manually-written)
   - [Usage](#usage)
-    - [Disclaimer: Data safety in typescript](#disclaimer-data-safety-in-typescript)
+    - [Disclaimer: Data safety in Typescript](#disclaimer-data-safety-in-Typescript)
     - [Untyped vs Typed databases](#untyped-vs-typed-databases)
     - [Opening/Creating databases](#openingcreating-databases)
       - [`type` parameter](#type-parameter)
@@ -19,33 +17,37 @@
       - [Documents](#documents)
       - [KeyValue](#keyvalue)
   - [Testing](#testing)
-
-<!-- /code_chunk_output -->
+<!--toc:end-->
 
 ## Install
 
-Orbitdb typescript definitions are bundled with orbitdb starting from version 1.0.1. No extra steps required.
+OrbitDB Typescript definitions are bundled with OrbitDB starting from version 1.0.1. No extra steps required.
 
 ## Why are the typing definitions manually written?
 
-Orbitdb is written in pure Javascript, and although it contains JSDoc with type annotations, they are not well typed and have issues since their intended use is to provide documentation for the generated [API website](http://api.orbitdb.org). Since generating typescript definitions from the JSDoc was not a valid option, it was decided to mantain manual definitions, since the alternative would be to migrate the source code to typescript, or redo the API website.
+OrbitDB is written in pure Javascript, and although it contains JSDoc with type annotations, they are not well typed and have issuessince their intended use is to provide documentation for the generated [API website](http://api.OrbitDB.org). Since generating Typescript definitions from the JSDoc was not a valid option, it was decided to mantain manual definitions, since the alternative would be to migrate the source code to Typescript, or redo the API website.
 
-> For more information see [this PR](https://github.com/orbitdb/orbitdb/pull/1106)
+<div style="padding: 15px; border: 1px solid transparent; border-color: transparent; margin-bottom: 20px; border-radius: 4px; color: #31708f; background-color: #d9edf7; border-color: #bce8f1;">
+For more information see <a href= "https://github.com/orbitdb/orbitdb/pull/1106">this PR</a>
+</div>
 
-Thare are some implications that stem from this decision, mainly being that the definitions are not automatically generated from the source code, which could possibly result in the definitions becoming incomplete or incompatible whenever the API changes.
+There are some implications that stem from this decision, mainly being that the definitions are not automatically generated from the source code, which could possibly result in the definitions becoming incomplete or incompatible whenever the API changes.
 
 If you find any issues with the definitions, please open an issue or a PR implementing the fix.
 
 ## Usage
 
-Usage stays mostly the same as with javascript, although there are some caveats. Since orbitdb 1.0 the main way to retrieve or create a database is to call `open` on the orbitdb instance. This function provides an options argument that allows to specify the type of the database by using the `type` field, which accepts a string database type identifier ("documents", "keyvalue", "events").
+Usage stays mostly the same as with Javascript, although there are some caveats. Since OrbitDB 1.0 the main way to retrieve or create a database is to call `open` on the OrbitDB instance. This function provides an options argument that allows to specify the type of the database by using the `type` field, which accepts a string database type identifier ("documents", "keyvalue", "events").
 
-The typescript orbitdb definitions force the use of the field `Database` which only accepts a valid database type. This makes the use more verbose, but it is necessary to provide type information to the compiler as well as to enforce correct API usage.
+The Typescript OrbitDB definitions force the use of the field `Database` which only accepts a valid database instance type. This makes the use more verbose, but it is necessary to provide type information to the compiler as well as to enforce correct API usage.
 
-Using other methods to create or retrieve a database may result in unkown or undesired behaviour.
+
+<div style="padding: 15px; border: 1px solid transparent; border-color: transparent; margin-bottom: 20px; border-radius: 4px; color: #8a6d3b;; background-color: #fcf8e3; border-color: #faebcc;">
+Using other methods to create or retrieve a database may result in unknown or undesired behaviour.
 Do use the following examples as guides for usage.
+</div>
 
-### Disclaimer: Data safety in typescript
+### Disclaimer: Data safety in Typescript
 
 The compiler can only check if the data you put into the database matches the shape you described, but it cannot guarantee that the data already in the database or received from other peers has the same shape. You can even "trick" the compiler to force it to feed it the data with double assertions (`data as unknown as T`, `T` being whatever you want the compiler to think the database holds).
 
@@ -53,12 +55,12 @@ You can even create a database of `Event<number>`, close it and reopen the same 
 
 This is obvious since **there are no runtime checks for data validation which is expected behaviour**. This kind of type assertions can be tricky since they are neither _real_ nor checked, and can give a "false sense of security".
 
-If you want compile and runtime validation see [@julienmalard](https://github.com/julienmalard)'s reseau-constellation [Bohr-DB](https://github.com/reseau-constellation/bohr-db) project:
-> "Bohr-DB brings both TypeScript and runtime-checked types to your orbit-db databases, so that you can be sure that you'll only receive values that correspond to your specified data schema.
->
-> Borh-DB uses AJV to check for data validity behind the scenes. It wraps around existing orbit-db databases with a proxy, so you can use typed Borh-DB databases as a drop-in and type-safe replacement for the original orbit-db databases in your code."
+If you want compile and runtime validation check out [Bohr-DB](https://github.com/reseau-constellation/bohr-db) by [@julienmalard](https://github.com/julienmalard's):
+> "Bohr-DB brings both Typescript and runtime-checked types to your orbit-db databases, so that you can be sure that you'll only receive values that correspond to your specified data schema.
 
-### Untyped vs Typed databases
+>"Bohr-DB uses AJV to check for data validity behind the scenes. It wraps around existing orbit-db databases with a proxy, so you can use typed Bohr-DB databases as a drop-in and type-safe replacement for the original orbit-db databases in your code."
+
+### Untyped vs typed databases
 
 When opening a database if no type information is provided the database will be typed as `unknown`.
 
@@ -77,11 +79,11 @@ The eventlog is of type:
 const eventlog: EventLog<unknown>
 ```
 
-This means that all operations on the database will deal with unknown data. Meaning that using the `as` operator becomes necessary which defeats the whole purpose of using typescript.
+This means that all operations on the database will deal with unknown data. Meaning that using the `as` operator becomes necessary which defeats the whole purpose of using Typescript in the first place.
 
-This is valid but not the recommended way to use orbitdb with typescript.
+This is valid but not the recommended way to use Orbitdb with Typescript.
 
-See the [orbitdb definition](../types/orbitdb.d.ts) for more information.
+See the [OrbitDB definition](../types/OrbitDB.d.ts) for more information.
 
 ### Opening/Creating databases
 
@@ -116,7 +118,7 @@ The type must be listed in [DatabaseTypes](../types/databases/index.d.ts) or an 
  ```
 
  When using this options parameters `type` and `Database` are not available.
-TypeScript doesn't know the type of database being opened. To specify it use the generic type parameter:
+Typescript doesn't know the type of database being opened. To specify it use the generic type parameter:
 
  ```ts
  const existingDB = await orbitdb.open<Events<string>>(dbAddress)
@@ -126,7 +128,7 @@ TypeScript doesn't know the type of database being opened. To specify it use the
 
 #### Open/Create a database by name and database type
 
-As specified before the Database field of the second argument must be a function that returns the desired databse type.
+As specified before, the `Database` field of the second argument must be a function that returns the desired database type.
 This functions accept generic arguments that specify the type of the values inside the database.
 
 #### Events
@@ -137,14 +139,14 @@ This functions accept generic arguments that specify the type of the values insi
  const mydb : Events<string>
 ```
 
-Trying to store anything of type than string will result in a type error.
+Trying to store anything with a different type other than `string` will result in a type error.
 
 ```ts
 await mydb.add(1)
  // Argument of type 'number' is not assignable to parameter of type 'string'.
  ```
 
- Retreiving data from the database will result in the correct data type the databse holds.
+Retrieving data from the database will result in the correct data type the database holds.
 
 ```ts
 const hash = await mydb.add("hello")
@@ -154,7 +156,7 @@ const entry : string
 
 #### Documents
 
-A document is a structured record that contains information or data, often represented in different formats. In this case we can use a typescript interface or object type that describes the document.
+A document is a structured record that contains information or data, often represented in different formats. In this case we can use a Typescript interface or object type that describes the document.
 
  ```ts
  import { documents } from '@orbitdb/core'
@@ -175,4 +177,4 @@ A document database has to type parameters:
 
 ## Testing
 
-Tests for typescript definitions are provided inside of the [test](../test/types/types.test.ts) folder. They are run with [tsd]()
+Tests for Typescript definitions are provided inside of the [test](../test/types/types.test.ts) folder.
