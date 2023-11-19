@@ -43,7 +43,6 @@ type CreateOrbitDBParams = {
 
 export interface OrbitDB {
     DatabaseTypes: string[]
-
     /**
      * Open a database or create one if it does not already exist.
      * ## Creating a new Database or opening an existing one by name
