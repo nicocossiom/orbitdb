@@ -58,8 +58,8 @@
   },
   "scripts": {
     "lint:docs": "remark -qf -u validate-links .",
-    "test:all": "npm run test:browser-multiple-tabs && npm run test",
-    "test:types": "cross-env TS_NODE_PROJECT=test/types/tsconfig.json mocha --config test/types/.mocharc.json",
+    "test:all": "npm run test && npm run test:types",
+    "test:types": "cross-env NODE_NO_WARNINGS=1 TS_NODE_PROJECT=test/types/tsconfig.json mocha --config test/types/.mocharc.json",
     "test": "cross-env mocha --config test/.mocharc.json",
     "test:ci": "cross-env c8 mocha --config test/.mocharc.json",
     "test:browser": "npm run build:tests && mocha-headless-chrome -t 360000 -f ./test/browser/index.html -a no-sandbox",
