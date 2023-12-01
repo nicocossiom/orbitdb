@@ -1,0 +1,14 @@
+{
+  "loader": "ts-node/esm",
+  "extension": [
+    "ts"
+  ],
+  "spec": [
+    "test/types/*.ts"
+  ],
+  "exit": true,
+  "reporter": "spec",
+  "colors": true,
+  "bail": false,
+  "slow": 1000
+}

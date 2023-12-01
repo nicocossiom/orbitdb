@@ -1,0 +1,30 @@
+{
+  "include": [
+    "src/**/*",
+    "test/types/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "ts-node": {
+    // Tell ts-node CLI to install the --loader automatically, explained below
+    "esm": true
+  },
+  "compilerOptions": {
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "typeRoots": [
+      "types"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "module": "esnext",
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+  }
+}

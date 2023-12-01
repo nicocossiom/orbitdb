@@ -34,61 +34,132 @@ export default Database
  * @instance
  */
 declare function Database(params?:
-    {
-        ipfs: IPFS,
-        identity: Identity,
-        address: string,
-        name: string,
-        access: AccessController
-        directory?: string,
-        meta: unknown,
-        headsStorage: Storage,
-        entryStorage: Storage,
-        indexStorage: Storage,
-        referencesCount: number,
-        syncAutomatically: boolean,
-        onUpdate: (log: Log, entry: Entry) => Promise<void>
-    }
+  {
+    ipfs: IPFS,
+    identity: Identity,
+    address: string,
+    name: string,
+    access: AccessController
+    directory?: string,
+    meta: unknown,
+    headsStorage: Storage,
+    entryStorage: Storage,
+    indexStorage: Storage,
+    referencesCount: number,
+    syncAutomatically: boolean,
+    onUpdate: (log: Log, entry: Entry) => Promise<void>
+  }
 ): BaseDatabase
 
-
 type DatabaseEvents = {
-    "close": () => void
-    "drop": () => void
-    "join": (peer: PeerId, heads: Array<Entry>) => void
-    "leave": (peer: PeerId) => void
-    "update": (entry: Entry) => void
-    "error": (error: Error) => void
+  "close": () => void
+  "drop": () => void
+  "join": (peer: PeerId, heads: Array<Entry>) => void
+  "leave": (peer: PeerId) => void
+  "update": (entry: Entry) => void
+  "error": (error: Error) => void
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type EmittedEvents = Record<string | symbol, (...args: any) => any>;
 
 interface TypedEventEmitter<Events extends EmittedEvents> {
-    on<E extends keyof Events>(
-        event: E, listener: Events[E]
-    ): this;
+  on<E extends keyof Events>(
+    event: E, listener: Events[E]
+  ): this;
 
-    emit<E extends keyof Events>(
-        event: E, ...args: Parameters<Events[E]>
-    ): boolean;
+  emit<E extends keyof Events>(
+    event: E, ...args: Parameters<Events[E]>
+  ): boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface TypedEventEmitter<Events extends EmittedEvents> extends EventEmitter { }
 
-declare const enum DatabaseTypes {
-    KeyValue = "keyvalue",
-    Document = "documents",
-    EventLog = "events"
-}
 export interface BaseDatabase {
-    access: AccessController
-    address: string
-    events: TypedEventEmitter<DatabaseEvents>
-    log: Log,
-    name: string,
-    peers: Set<PeerId>
-    sync: Sync
-    addOperation(op: { op: "PUT" | "DEL" | "ADD" }, key, value): Promise<string>
-    type: string,
-    close(): Promise<void>
-    drop(): Promise<void>
+
+  /**
+  * The [access controller]{@link module:AccessControllers} instance of the database.
+  * @memberof module:Databases~Database
+  * @instance
+  */
+  access: AccessController
+
+  /**
+  * The address of the database.
+  * @†ype string
+  * @memberof module:Databases~Database
+  * @instance
+  */
+  address: string
+
+  /**
+  * The events that can be emitted by the database.
+  */
+  events: TypedEventEmitter<DatabaseEvents>
+
+  /**
+  * The underlying [operations log]{@link module:Log~Log} of the database.
+  * @†ype {module:Log~Log}
+  * @memberof module:Databases~Database
+  * @instance
+  */
+  log: Log,
+
+  /**
+  * The name of the database.
+  * @†ype string
+  * @memberof module:Databases~Database
+  * @instance
+  */
+  name: string,
+
+  /**
+  * Set of currently connected peers for this Database instance.
+  * @†ype Set
+  * @memberof module:Databases~Database
+  * @instance
+  */
+  peers: Set<PeerId>
+
+  /**
+  * A [sync]{@link module:Sync~Sync} instance of the database.
+  * @†ype {module:Sync~Sync}
+  * @memberof module:Databases~Database
+  * @instance
+  */
+  sync: Sync
+
+  /**
+  * Adds an operation to the oplog.
+  * @function addOperation
+  * @param {*} op Some operation to add to the oplog.
+  * @return {string} The hash of the operation.
+  * @memberof module:Databases~Database
+  * @instance
+  * @async
+  */
+  addOperation(op: { op: "PUT" | "DEL" | "ADD" }, key, value): Promise<string>
+
+  /**
+  * The string type identifier of the database.
+  * @example "keyvalue", "eventlog", "documents"
+  */
+  type: string,
+
+  /**
+  * Closes the database, stopping sync and closing the oplog.
+  * @memberof module:Databases~Database
+  * @instance
+  * @async
+  */
+  close(): Promise<void>
+
+  /**
+  * Drops the database, clearing the oplog.
+  * @memberof module:Databases~Database
+  * @instance
+  * @async
+  */
+  drop(): Promise<void>
 }

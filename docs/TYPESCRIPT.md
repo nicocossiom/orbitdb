@@ -254,11 +254,20 @@ parameter, then you will be forced to provide the index generic.
 
 This is because the `Documents` function definition has been overloaded to accept
 either one or two generic type parameters. See the [definition](../types/databases/documents.d.ts)
-for more information. Also, if there are better approaches to this problem, please
-open an issue or PR.
+for more information. Also, if you find there are better approaches to this problem,
+please open an issue or PR.
 
 #### KeyValue
 
+As with other databases it is possible to create a `KeyValue` database of
+unknown types:
+
+```ts
+const db = await orbitdb.open("test", {Database: KeyValue()})
+const db: KeyValue<unknown, unknown>
+```
+
 ## Testing
 
-Tests for Typescript definitions are provided inside of the [test](../test/types/types.test.ts) folder.
+Tests for Typescript definitions are provided inside of the
+[test](../test/types/types.test.ts) folder.
